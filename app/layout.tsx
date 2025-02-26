@@ -3,14 +3,13 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { ThemeProvider } from "@/components/ThemeProvider"
+import { ThemeProvider } from "next-themes"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "AI Image Generator",
   description: "Generate amazing images with AI",
-   
 }
 
 export default function RootLayout({
