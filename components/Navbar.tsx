@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { DarkModeToggle } from "./DarkModeToggle"
+import { SignInButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs"
 
 export default function Navbar() {
   return (
@@ -49,10 +50,10 @@ export default function Navbar() {
             
             <div className="flex flex-col">
               <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent">
-                AI Image Gen
+                Imagica
               </span>
               <span className="text-xs text-muted-foreground hidden sm:inline-block">
-                Create stunning AI images
+                Create magical AI images
               </span>
             </div>
           </Link>
@@ -75,6 +76,16 @@ export default function Navbar() {
             </div>
             <div className="h-6 w-px bg-border hidden sm:block" />
             <DarkModeToggle />
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
         </div>
       </div>

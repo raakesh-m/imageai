@@ -11,7 +11,7 @@ export default function DocsPage() {
         <div className="space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Documentation</h1>
           <p className="text-lg text-muted-foreground">
-            Learn how to use AI Image Generator effectively and explore its features.
+            Learn how to use Imagica effectively and explore its features.
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default function DocsPage() {
 
                 <h3 className="font-semibold">3. Customize Generation Settings</h3>
                 <p className="text-sm text-muted-foreground">
-                  Adjust style, aspect ratio, and use negative prompts to fine-tune
+                  Adjust style, creativity level, and use negative prompts to fine-tune
                   your results.
                 </p>
               </div>
@@ -71,7 +71,7 @@ export default function DocsPage() {
                 </div>
                 <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
                   <li>Multiple style options</li>
-                  <li>Custom aspect ratios</li>
+                  <li>Adjustable creativity level</li>
                   <li>Negative prompts</li>
                   <li>Batch generation</li>
                 </ul>
@@ -139,9 +139,9 @@ export default function DocsPage() {
                   <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
                     <li>prompt (string, required) - Image description</li>
                     <li>style (string) - Generation style</li>
-                    <li>aspectRatio (string) - Image dimensions</li>
                     <li>negativePrompt (string) - Elements to avoid</li>
-                    <li>numberOfImages (number) - Batch size (1-4)</li>
+                    <li>numberOfImages (number) - Batch size (1-3)</li>
+                    <li>creativity (number) - Creativity level (0-100)</li>
                   </ul>
                 </div>
 

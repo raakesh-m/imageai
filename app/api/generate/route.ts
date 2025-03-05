@@ -1,4 +1,4 @@
-// app/api/generate/route.ts
+// Imagica's image generation API endpoint
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
 
@@ -7,61 +7,47 @@ const replicate = new Replicate({
 });
 
 export async function POST(request: Request) {
-  const { prompt, style, aspectRatio, negativePrompt, numberOfImages } = await request.json();
+  const { prompt, style, negativePrompt, numberOfImages, width, height, creativity } = await request.json();
 
   if (!prompt) {
     return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
   }
 
   try {
-    // Convert aspect ratio to dimensions
-    let width = 768;
-    let height = 768;
-    switch (aspectRatio) {
-      case "16:9":
-        width = 1024;
-        height = 576;
-        break;
-      case "4:3":
-        width = 1024;
-        height = 768;
-        break;
-      case "3:2":
-        width = 1024;
-        height = 683;
-        break;
-      case "9:16":
-        width = 576;
-        height = 1024;
-        break;
-    }
+    // Use provided width and height, or default to 1:1 aspect ratio
+    const finalWidth = width || 1024;
+    const finalHeight = height || 1024;
 
-    // Enhance prompt based on style
+    // Enhance prompt based on style - this makes the style more pronounced
     let enhancedPrompt = prompt;
     if (style !== "realistic") {
       enhancedPrompt = `${prompt}, ${style} style`;
     }
 
-    const output = await replicate.run("black-forest-labs/flux-schnell", {
-      input: {
-        prompt: enhancedPrompt,
-        negative_prompt: negativePrompt,
-        width,
-        height,
-        num_outputs: numberOfImages || 1,
-        scheduler: "K_EULER",
-        num_inference_steps: 4,
-        guidance_scale: 7.5,
-      },
-    });
+    // Set up the parameters for the Replicate API call
+    const replicateInput = {
+      prompt: enhancedPrompt,
+      negative_prompt: negativePrompt,
+      width: finalWidth,
+      height: finalHeight,
+      num_outputs: numberOfImages || 1,
+      scheduler: "K_EULER",
+      num_inference_steps: 4,
+      guidance_scale: 7.5,
+    };
 
-    console.log("Raw output from Replicate:", output);
+    // Make the actual API call to generate the image
+    const output = await replicate.run("black-forest-labs/flux-schnell", {
+      input: replicateInput,
+    });
 
     let imageUrls: string[] = [];
 
+    // Process the output from Replicate
     if (Array.isArray(output)) {
       for (const item of output) {
         if (item instanceof ReadableStream) {
+          // Handle stream data (binary image data)
           const stream = item;
           const reader = stream.getReader();
 
@@ -76,6 +62,7 @@ export async function POST(request: Request) {
             throw new Error("Stream ended without data");
           }
 
+          // Combine all chunks into a single image
           const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
           const imageData = new Uint8Array(totalLength);
           let offset = 0;
@@ -84,9 +71,11 @@ export async function POST(request: Request) {
             offset += chunk.length;
           }
 
+          // Convert to base64 for easy display in the browser
           const base64String = Buffer.from(imageData).toString("base64");
           imageUrls.push(`data:image/webp;base64,${base64String}`);
         } else if (typeof item === "string") {
+          // Handle URL strings directly
           imageUrls.push(item);
         }
       }
@@ -98,8 +87,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ imageUrls });
   } catch (error: unknown) {
-    console.error("Detailed error generating image:", error);
+    console.error("Error generating image:", error);
     
+    // Provide a friendly error message based on the error type
     let errorMessage = "Failed to generate image. Please try again.";
     
     if (error instanceof Error) {
