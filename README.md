@@ -1,16 +1,16 @@
-
 # AI Image Generator
 
 A modern web application that generates unique images using artificial intelligence. Built with Next.js 13, TypeScript, and Tailwind CSS.
 
 ## Features
 
-- 🎨 AI-powered image generation
+- 🎨 AI-powered image generation using Stable Diffusion XL
 - 🌓 Dark/Light mode support
 - 🔐 Password protection for controlled access
 - 📱 Responsive design
 - 🖼️ Image gallery with download functionality
 - ⚡ Real-time generation status updates
+- 💰 Cost-effective image generation 
 
 ## Tech Stack
 
@@ -18,9 +18,20 @@ A modern web application that generates unique images using artificial intellige
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
 - **UI Components:** shadcn/ui
-- **Image Generation:** Replicate API
+- **Image Generation:** Stable Diffusion XL
 - **Authentication:** Custom middleware with cookie-based auth
 - **Icons:** Lucide Icons
+
+## About the AI Model
+
+This project uses Stable Diffusion XL for image generation, chosen for its:
+- Excellent value for money (Choose premium models available for higher quality)
+- High-quality image output
+- Good performance with landscapes and general scenes
+- Fast generation speed
+- Reliable and consistent results
+
+While it may not excel at extremely detailed features like hands or faces compared to more expensive models, it provides an excellent balance of quality and cost-effectiveness for general purpose image generation.
 
 ## Getting Started
 
@@ -28,12 +39,11 @@ A modern web application that generates unique images using artificial intellige
 
 - Node.js 18+ 
 - npm or yarn
-- A Replicate API key
+- An API key for the image generation service
 
 ### Installation
 
 1. Clone the repository
-
 
 2. Install dependencies:
 ```bash
@@ -96,6 +106,6 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 
-- [Replicate](https://replicate.com/) for the AI image generation API
+- [Stable Diffusion XL](https://stability.ai/stable-diffusion) for the powerful and cost-effective AI image generation model
 - [shadcn/ui](https://ui.shadcn.com/) for the beautiful UI components
 - [Next.js](https://nextjs.org/) team for the amazing framework
